@@ -105,3 +105,48 @@ function tellMeWhenDone(callback) {
 tellMeWhenDone(function() {
   console.log('work done...');
 })
+
+// All functions in JS have access to the call, apply, and bind built-in functions.
+// Because as we know, function in JS are a special type of object
+var person = {
+  firstname: 'John',
+  lastname: 'Doe',
+  getFullName: function() {
+    var fullname = this.firstname + ' ' + this.lastname
+    return fullname
+  }
+}
+
+var logName = function(lang1, lang2) {
+  console.log('Logged: ', this.getFullName());
+  console.log('Arguments: ', lang1, lang2);
+  console.log('---------------');
+}
+
+// BIND creates copy of the function and 'bind' passed parameter to the this of the function
+var logPersonName = logName.bind(person)
+logPersonName('en')
+
+// CALL executes the function without creating the copy, 
+// and binds the first parameter to the this of the function
+logName.call(person, 'en', 'es')
+// APPLY to the same thing with CALL function, but
+// it accepts the other parameters as an array
+logName.apply(person, ['en', 'es'])
+
+// FUNCTION BORROWING
+var person2 = {
+  firstname: 'Jane',
+  lastname: 'Doe'
+}
+
+// console.log(person.getFullName.call(person2)); // the same result with apply
+console.log(person.getFullName.apply(person2));
+
+// FUNCTION CURRYING - creating a copy of a function but with some preset parameters
+function multiply(a, b) {
+  return a * b 
+}
+
+var multiplyByTwo = multiply.bind(this, 2)
+console.log(multiplyByTwo(4));  
